@@ -1317,31 +1317,31 @@ void parse()
     }
 }
 
-char *insts;
-void write_as()
-{
-    int fd;
-    char *buffer;
-    insts = "IMM ,LEA ,JMP ,JZ  ,JNZ ,CALL,NVAR,DARG,RET ,LI  ,LC  ,SI  ,SC  ,PUSH,"
-            "OR  ,XOR ,AND ,EQ  ,NE  ,LT  ,GT  ,LE  ,GE  ,SHL ,SHR ,ADD ,SUB ,MUL ,DIV ,MOD ,"
-            "OPEN,READ,CLOS,PRTF,MALC,FREE,MSET,MCMP,EXIT,";
-    fd = open("assemble", 0x0001 | 0x0200);
-    buffer = malloc(100);
-    while (code_dump < code)
-    {
-        sprintf(buffer, "(%lld) %8.4s", ++code_dump, insts + (*code_dump * 5));
-        write(fd, buffer, strlen(buffer));
-        if (*code_dump < RET)
-            sprintf(buffer, " %lld\n", *++code_dump);
-        else
-        {
-            buffer[0] = '\n';
-            buffer[1] = '\0';
-        }
-        write(fd, buffer, strlen(buffer));
-    }
-    close(fd);
-}
+// char *insts;
+// void write_as()
+// {
+//     int fd;
+//     char *buffer;
+//     insts = "IMM ,LEA ,JMP ,JZ  ,JNZ ,CALL,NVAR,DARG,RET ,LI  ,LC  ,SI  ,SC  ,PUSH,"
+//             "OR  ,XOR ,AND ,EQ  ,NE  ,LT  ,GT  ,LE  ,GE  ,SHL ,SHR ,ADD ,SUB ,MUL ,DIV ,MOD ,"
+//             "OPEN,READ,CLOS,PRTF,MALC,FREE,MSET,MCMP,EXIT,";
+//     fd = open("assemble", 0x0001 | 0x0200);
+//     buffer = malloc(100);
+//     while (code_dump < code)
+//     {
+//         sprintf(buffer, "(%lld) %8.4s", ++code_dump, insts + (*code_dump * 5));
+//         write(fd, buffer, strlen(buffer));
+//         if (*code_dump < RET)
+//             sprintf(buffer, " %lld\n", *++code_dump);
+//         else
+//         {
+//             buffer[0] = '\n';
+//             buffer[1] = '\0';
+//         }
+//         write(fd, buffer, strlen(buffer));
+//     }
+//     close(fd);
+// }
 
 int load_src(char *file)
 {
@@ -1422,7 +1422,7 @@ int init_vm()
     return 0;
 }
 
-int32_t main(int32_t argc, char **argv)
+int main(int argc, char **argv)
 {
     MAX_SIZE = 128 * 1024 * 8; // 1MB = 128k * 64bit
     // 加载代码
@@ -1434,6 +1434,6 @@ int32_t main(int32_t argc, char **argv)
     // 初始化keyword
     keyword();
     parse();
-    write_as();
+    // write_as();
     return run_vm(--argc, ++argv);
 }
